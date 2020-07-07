@@ -20,6 +20,16 @@
          deepLinking: true,
          layout: "BaseLayout",
          supportedSubmitMethods: [{% for meth in swagger_ui_supported_submit_methods %}"{{meth.lower()}}",{% endfor %}],
+         onComplete: function() {
+            {%- for token, creds in swagger_ui_preauth_basic.items() %}
+            ui.preauthorizeBasic("{{ token }}", "{{ creds["username"] }}", "{{ creds["password"]}}");
+            {%- endfor %}
+
+            {%- for token, apikey in swagger_ui_preauth_apikeys.items() %}
+            ui.preauthorizeApiKey("{{ token }}", "{{ apikey }}");
+            {%- endfor %}
+          }
+
        })
        window.ui = ui
      }

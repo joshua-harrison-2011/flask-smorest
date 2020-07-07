@@ -81,12 +81,6 @@ class DocBlueprintMixin:
             swagger_ui_url = self._app.config.get('OPENAPI_SWAGGER_UI_URL')
             if swagger_ui_url is not None:
                 self._swagger_ui_url = swagger_ui_url
-                self._swagger_ui_supported_submit_methods = (
-                    self._app.config.get(
-                        'OPENAPI_SWAGGER_UI_SUPPORTED_SUBMIT_METHODS',
-                        ['get', 'put', 'post', 'delete', 'options',
-                         'head', 'patch', 'trace'])
-                )
                 blueprint.add_url_rule(
                     _add_leading_slash(swagger_ui_path),
                     endpoint='openapi_swagger_ui',
@@ -110,8 +104,12 @@ class DocBlueprintMixin:
         return flask.render_template(
             'swagger_ui.html', title=self._app.name,
             swagger_ui_url=self._swagger_ui_url,
-            swagger_ui_supported_submit_methods=(
-                self._swagger_ui_supported_submit_methods)
+            swagger_ui_supported_submit_methods=self._app.config.get(
+                'OPENAPI_SWAGGER_UI_SUPPORTED_SUBMIT_METHODS',
+                ['get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace']
+            ),
+            swagger_ui_preauth_basic=self._app.config.get("OPENAPI_SWAGGER_UI_PREAUTH_BASIC", {}),
+            swagger_ui_preauth_apikeys=self._app.config.get("OPENAPI_SWAGGER_UI_PREAUTH_APIKEYS", {})
         )
 
 

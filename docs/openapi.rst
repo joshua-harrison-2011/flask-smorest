@@ -300,6 +300,33 @@ page using the JS script from the script URL.
 
    Default: ``['get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace']``
 
+.. describe:: OPENAPI_SWAGGER_UI_PREAUTH_BASIC
+
+   A dict representing authorization parameters to be registered using the Basic authorization scheme.
+   Each index in the dict corresponds to the name of a authorization schema registered with the underlying spec object.
+   If the corresponding authorization schema does not exist, it's config will be ignored.
+
+   Example:
+      * ``{"AuthToken1": {"username": "username", "password": "password"}``
+
+   Schema Registration Example:
+      * ``api.spec.components.security_scheme("AuthToken1", {
+        "UserToken", {"type": "http", "scheme": "bearer"}
+    )
+
+    # https://apispec.readthedocs.io/en/latest/api_core.html#apispec.core.Components.security_scheme
+
+.. describe:: OPENAPI_SWAGGER_UI_PREAUTH_APIKEYS
+
+   A map representing authorization parameters to be registered using the ApiKey or Bearer authorization scheme.
+   Each index in the dict corresponds to the name of a authorization schema registered with the underlying spec object.
+   If the corresponding authorization schema does not exist, it's config will be ignored.
+
+   Examples:
+      * ``{"ApiKey1": "ApiValue1", "BearerToken1": "BearerValue1}``
+
+
+
 Here's an example application configuration using both ReDoc and Swagger UI:
 
 .. code-block:: python
